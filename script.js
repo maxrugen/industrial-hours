@@ -26,13 +26,16 @@ function formatToTwoDecimalPlaces(number) {
 function validateInput(hours, minutes) {
     return !isNaN(hours) && !isNaN(minutes) && hours >= 0 && minutes >= 0 && minutes <= 59;
 }
-// Function to toggle the visibility of the conversion table
+// Function to toggle the visibility of the conversion table and update link text
 function toggleTableVisibility() {
     const tableContainer = document.getElementById("calculationTableContainer");
+    const link = document.getElementById("showTableLink");
     if (tableContainer.style.display === "none" || tableContainer.style.display === "") {
         tableContainer.style.display = "block";
+        link.textContent = "Hide conversion table";
     } else {
         tableContainer.style.display = "none";
+        link.textContent = "Show conversion table";
     }
 }
 // Function to generate and display the calculation table
@@ -40,25 +43,46 @@ function generateCalculationTable() {
     const tableContainer = document.getElementById("calculationTableContainer");
     const table = document.createElement("table");
     table.classList.add("conversionTable");
-    // Create header row
-    const headerRow = document.createElement("tr");
-    headerRow.innerHTML = "<th>Minutes</th><th>Industrial Hours</th><th>Minutes</th><th>Industrial Hours</th><th>Minutes</th><th>Industrial Hours</th>";
-    table.appendChild(headerRow);
-    // Populate table with data (30 rows)
-    for (let minute = 0; minute <= 20; minute += 2) {
-        const row = document.createElement("tr");
-        const industrialHours1 = formatToTwoDecimalPlaces(calculateIndustrialHours(0, minute));
-        const industrialHours2 = formatToTwoDecimalPlaces(calculateIndustrialHours(0, minute + 1));
-        row.innerHTML = `<td>${minute}</td><td>${industrialHours1}</td><td>${minute + 20}</td><td>${industrialHours2}</td><td>${minute + 40}</td><td>${formatToTwoDecimalPlaces(calculateIndustrialHours(0, minute + 40))}</td>`;
-        table.appendChild(row);
-        // Additional row for odd minutes
-        if (minute < 20) {
-            const oddRow = document.createElement("tr");
-            const oddIndustrialHours = formatToTwoDecimalPlaces(calculateIndustrialHours(0, minute + 1));
-            oddRow.innerHTML = `<td>${minute + 1}</td><td>${oddIndustrialHours}</td><td>${minute + 21}</td><td>${formatToTwoDecimalPlaces(calculateIndustrialHours(0, minute + 21))}</td><td>${minute + 41}</td><td>${formatToTwoDecimalPlaces(calculateIndustrialHours(0, minute + 41))}</td>`;
-            table.appendChild(oddRow);
-        }
-    }
+    const headers = ["Minutes", "Industrial Hours", "Minutes", "Industrial Hours", "Minutes", "Industrial Hours"];
+    // Create table header
+    const headerRow = table.insertRow();
+    headers.forEach(headerText => {
+        const th = document.createElement("th");
+        th.textContent = headerText;
+        headerRow.appendChild(th);
+    });
+    // Create table rows
+    const rows = [
+        [0, 0.00, 21, 0.35, 42, 0.70],
+        [1, 0.02, 22, 0.37, 43, 0.72],
+        [2, 0.03, 23, 0.38, 44, 0.73],
+        [3, 0.05, 24, 0.40, 45, 0.75],
+        [4, 0.07, 25, 0.42, 46, 0.77],
+        [5, 0.08, 26, 0.43, 47, 0.78],
+        [6, 0.10, 27, 0.45, 48, 0.80],
+        [7, 0.12, 28, 0.47, 49, 0.82],
+        [8, 0.13, 29, 0.48, 50, 0.83],
+        [9, 0.15, 30, 0.50, 51, 0.85],
+        [10, 0.17, 31, 0.52, 52, 0.87],
+        [11, 0.18, 32, 0.53, 53, 0.88],
+        [12, 0.20, 33, 0.55, 54, 0.90],
+        [13, 0.22, 34, 0.57, 55, 0.92],
+        [14, 0.23, 35, 0.58, 56, 0.93],
+        [15, 0.25, 36, 0.60, 57, 0.95],
+        [16, 0.27, 37, 0.62, 58, 0.97],
+        [17, 0.28, 38, 0.63, 59, 0.98],
+        [18, 0.30, 39, 0.65, 60, 1.00],
+        [19, 0.32, 40, 0.67],
+        [20, 0.33, 41, 0.68],
+    ];
+    rows.forEach(rowData => {
+        const row = table.insertRow();
+        rowData.forEach(cellData => {
+            const cell = row.insertCell();
+            cell.textContent = cellData;
+        });
+    });
+    tableContainer.innerHTML = ""; // Clear existing content
     tableContainer.appendChild(table);
 }
 // Main conversion function
