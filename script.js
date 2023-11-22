@@ -26,6 +26,41 @@ function formatToTwoDecimalPlaces(number) {
 function validateInput(hours, minutes) {
     return !isNaN(hours) && !isNaN(minutes) && hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59;
 }
+// Function to toggle the visibility of the conversion table
+function toggleTableVisibility() {
+    const tableContainer = document.getElementById("calculationTableContainer");
+    if (tableContainer.style.display === "none" || tableContainer.style.display === "") {
+        tableContainer.style.display = "block";
+    } else {
+        tableContainer.style.display = "none";
+    }
+}
+// Function to generate and display the calculation table
+function generateCalculationTable() {
+    const tableContainer = document.getElementById("calculationTableContainer");
+    const table = document.createElement("table");
+    table.classList.add("conversionTable");
+    // Create header row
+    const headerRow = document.createElement("tr");
+    headerRow.innerHTML = "<th>Minutes</th><th>Industrial Hours</th><th>Minutes</th><th>Industrial Hours</th><th>Minutes</th><th>Industrial Hours</th>";
+    table.appendChild(headerRow);
+    // Populate table with data (30 rows)
+    for (let minute = 0; minute <= 20; minute += 2) {
+        const row = document.createElement("tr");
+        const industrialHours1 = formatToTwoDecimalPlaces(calculateIndustrialHours(0, minute));
+        const industrialHours2 = formatToTwoDecimalPlaces(calculateIndustrialHours(0, minute + 1));
+        row.innerHTML = `<td>${minute}</td><td>${industrialHours1}</td><td>${minute + 20}</td><td>${industrialHours2}</td><td>${minute + 40}</td><td>${formatToTwoDecimalPlaces(calculateIndustrialHours(0, minute + 40))}</td>`;
+        table.appendChild(row);
+        // Additional row for odd minutes
+        if (minute < 20) {
+            const oddRow = document.createElement("tr");
+            const oddIndustrialHours = formatToTwoDecimalPlaces(calculateIndustrialHours(0, minute + 1));
+            oddRow.innerHTML = `<td>${minute + 1}</td><td>${oddIndustrialHours}</td><td>${minute + 21}</td><td>${formatToTwoDecimalPlaces(calculateIndustrialHours(0, minute + 21))}</td><td>${minute + 41}</td><td>${formatToTwoDecimalPlaces(calculateIndustrialHours(0, minute + 41))}</td>`;
+            table.appendChild(oddRow);
+        }
+    }
+    tableContainer.appendChild(table);
+}
 // Main conversion function
 function convertTime() {
     const timeInput = readTimeInput();
@@ -60,3 +95,5 @@ document.getElementById("timeInput").addEventListener("keypress", function (even
         convertTime();
     }
 });
+// Initial call to generate and display the calculation table
+generateCalculationTable();
