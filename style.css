@@ -7,10 +7,6 @@ body {
 .error {
     color: red;
 }
-/* CSS for success state */
-.success {
-    color: green;
-}
 /* CSS for converter */
 #converter {
     max-width: 400px;

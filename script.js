@@ -6,7 +6,6 @@ function readTimeInput() {
 function displayError(message, resultElement, errorElement) {
     errorElement.textContent = message;
     resultElement.textContent = ""; // Clear any previous result
-    resultElement.classList.remove("success"); // Remove success styling
     errorElement.classList.add("error"); // Apply error styling
 }
 // Function to display the result on the DOM
@@ -14,7 +13,6 @@ function displayResult(result, resultElement, errorElement) {
     resultElement.textContent = result;
     errorElement.textContent = ""; // Clear any previous error
     errorElement.classList.remove("error"); // Remove error styling
-    resultElement.classList.add("success"); // Apply success styling
 }
 // Function to calculate industrial hours from hours and minutes
 function calculateIndustrialHours(hours, minutes) {
