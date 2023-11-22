@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Industrial Hours Calculator</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,8 @@
         <button onclick="convertTime()">Calculate</button>
         <p id="result"></p>
         <p id="error"></p>
+        <p id="showTableLink" class="showTableLink" onclick="toggleTableVisibility();">Show conversion table</p>
+        <div id="calculationTableContainer"></div>
     </div>
     <script defer src="script.js"></script>
 </body>

@@ -2,6 +2,14 @@
 body {
     font-family: "Lab Grotesque", sans-serif;
     text-align: center;
+    font-size: 14px; /* Adjust the font size as needed */
+}
+/* Add a class for styling the link to show/hide the table */
+.showTableLink {
+    color: #808080; /* Gray color */
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 10px; /* Add some space above the link */
 }
 /* CSS for error state */
 .error {
@@ -9,9 +17,32 @@ body {
 }
 /* CSS for converter */
 #converter {
-    max-width: 400px;
-    margin: 0 auto;
+    max-width: 500px; /* Increase the max-width as needed */
+    margin: 20px auto 50px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+/* CSS for conversion table container */
+#calculationTableContainer {
+    display: none; /* Hidden by default */
+    margin-top: 20px;
+}
+/* CSS for conversion table */
+.conversionTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.conversionTable th, .conversionTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+.conversionTable th {
+    background-color: #f2f2f2;
+}
+/* Adjust margin-bottom for the last paragraph */
+#converter p:last-child {
+    margin-bottom: 0;
 }
