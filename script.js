@@ -56,3 +56,9 @@ function convertTime() {
         }
     }
 }
+// Add event listener for the Enter key on the input field
+document.getElementById("timeInput").addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        convertTime();
+    }
+});
