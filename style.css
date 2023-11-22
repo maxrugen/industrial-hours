@@ -5,7 +5,7 @@ body {
 }
 /* CSS for error state */
 .error {
-    color: red;
+    color: #990000; /* Darker shade of red */
 }
 /* CSS for converter */
 #converter {
