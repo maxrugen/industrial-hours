@@ -1,0 +1,21 @@
+/* CSS for body */
+body {
+    font-family: "Lab Grotesque", sans-serif;
+    text-align: center;
+}
+/* CSS for error state */
+.error {
+    color: red;
+}
+/* CSS for success state */
+.success {
+    color: green;
+}
+/* CSS for converter */
+#converter {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
