@@ -24,7 +24,7 @@ function formatToTwoDecimalPlaces(number) {
 }
 // Function to validate input values
 function validateInput(hours, minutes) {
-    return !isNaN(hours) && !isNaN(minutes) && hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59;
+    return !isNaN(hours) && !isNaN(minutes) && hours >= 0 && minutes >= 0 && minutes <= 59;
 }
 // Main conversion function
 function convertTime() {
@@ -41,7 +41,7 @@ function convertTime() {
                 const decimalHours = calculateIndustrialHours(hours, minutes);
                 displayResult(`Industrial Hours: ${formatToTwoDecimalPlaces(decimalHours)} hours`, resultElement, errorElement);
             } else {
-                displayError("Invalid entry. Hours must be between 0 and 23, and minutes must be between 0 and 59.", resultElement, errorElement);
+                displayError("Invalid entry. Minutes must be between 0 and 59.", resultElement, errorElement);
             }
         } else {
             const minutes = parseInt(timeInput);
