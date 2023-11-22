@@ -24,7 +24,13 @@ function formatToTwoDecimalPlaces(number) {
 }
 // Function to validate input values
 function validateInput(hours, minutes) {
-    return !isNaN(hours) && !isNaN(minutes) && hours >= 0 && minutes >= 0 && minutes <= 59;
+    if (!isNaN(hours) && !isNaN(minutes)) {
+        return (hours >= 0 && minutes >= 0 && minutes <= 59);
+    } else if (isNaN(hours) && isNaN(minutes) && /^\d{1,2}:\d{2}$/.test(`${hours}:${minutes}`)) {
+        const [enteredHours, enteredMinutes] = `${hours}:${minutes}`.split(":").map(part => parseInt(part));
+        return validateInput(enteredHours, enteredMinutes);
+    }
+    return false;
 }
 // Function to toggle the visibility of the conversion table and update link text
 function toggleTableVisibility() {
@@ -90,26 +96,27 @@ function convertTime() {
     const timeInput = readTimeInput();
     const resultElement = document.getElementById("result");
     const errorElement = document.getElementById("error");
-    if (timeInput.trim() === "") {
-        displayError("Please enter a duration in the format hh:mm or in minutes.", resultElement, errorElement);
-    } else {
-        errorElement.textContent = "";
-        if (timeInput.includes(":")) {
-            const [hours, minutes] = timeInput.split(":").map(part => parseInt(part));
-            if (validateInput(hours, minutes)) {
-                const decimalHours = calculateIndustrialHours(hours, minutes);
-                displayResult(`Industrial Hours: ${formatToTwoDecimalPlaces(decimalHours)} hours`, resultElement, errorElement);
-            } else {
-                displayError("Invalid entry. Minutes must be between 0 and 59.", resultElement, errorElement);
-            }
+    // Check for non-numeric characters
+    if (!/^\d+$|^\d{1,2}:\d{2}$/.test(timeInput)) {
+        displayError("Invalid entry. Please enter a valid duration in the format hh:mm or in minutes.", resultElement, errorElement);
+        return;
+    }
+    errorElement.textContent = "";
+    if (timeInput.includes(":")) {
+        const [hours, minutes] = timeInput.split(":").map(part => parseInt(part));
+        if (validateInput(hours, minutes)) {
+            const decimalHours = calculateIndustrialHours(hours, minutes);
+            displayResult(`Industrial Hours: ${formatToTwoDecimalPlaces(decimalHours)} hours`, resultElement, errorElement);
         } else {
-            const minutes = parseInt(timeInput);
-            if (!isNaN(minutes) && minutes >= 0) {
-                const decimalHours = calculateIndustrialHours(0, minutes);
-                displayResult(`Industrial Hours: ${formatToTwoDecimalPlaces(decimalHours)} hours`, resultElement, errorElement);
-            } else {
-                displayError("Invalid entry. Please enter a valid duration in the format hh:mm or in minutes.", resultElement, errorElement);
-            }
+            displayError("Invalid entry. Minutes must be between 0 and 59.", resultElement, errorElement);
+        }
+    } else {
+        const minutes = parseInt(timeInput);
+        if (!isNaN(minutes) && minutes >= 0) {
+            const decimalHours = calculateIndustrialHours(0, minutes);
+            displayResult(`Industrial Hours: ${formatToTwoDecimalPlaces(decimalHours)} hours`, resultElement, errorElement);
+        } else {
+            displayError("Invalid entry. Please enter a valid duration in the format hh:mm or in minutes.", resultElement, errorElement);
         }
     }
 }
