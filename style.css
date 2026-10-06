@@ -31,16 +31,23 @@ h1 {
 }
 
 summary {
-    color: #808080;
+    color: #666;
     cursor: pointer;
     text-decoration: underline;
     margin-top: 10px;
 }
 
-.conversionTable {
-    width: 100%;
-    border-collapse: collapse;
+.conversionTables {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
     margin-top: 10px;
+}
+
+.conversionTable {
+    flex: 1 1 140px;
+    border-collapse: collapse;
 }
 
 .conversionTable th,

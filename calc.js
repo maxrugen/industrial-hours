@@ -44,3 +44,18 @@ export function formatDuration(minutes) {
     const remainder = String(minutes % 60).padStart(2, "0");
     return `${hours}:${remainder}`;
 }
+
+// Repeats the input back with its unit so users can tell how it was read,
+// e.g. that "8" means 8 minutes, not 8 hours. Returns null for invalid input.
+export function describeConversion(input, locale) {
+    const minutes = parseDuration(input);
+    if (minutes !== null) {
+        const source = input.includes(":") ? formatDuration(minutes) : `${minutes} min`;
+        return `${source} = ${formatHours(toIndustrialHours(minutes), locale)} h`;
+    }
+    const decimalMinutes = parseDecimalHours(input);
+    if (decimalMinutes !== null) {
+        return `${input.trim()} h = ${formatDuration(decimalMinutes)}`;
+    }
+    return null;
+}
