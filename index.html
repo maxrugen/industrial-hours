@@ -2,21 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Industrial Hours Calculator</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrial Hours Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="script.js"></script>
 </head>
 <body>
-    <div id="converter">
-        <h2>Industrial Hours Calculator</h2>
-        <label for="timeInput">Enter duration (hh:mm or minutes):</label>
-        <br><br><input type="text" id="timeInput" placeholder="e.g. 1:30 or 90">
-        <button onclick="convertTime()">Calculate</button>
-        <p id="result"></p>
-        <p id="error"></p>
-        <p id="showTableLink" class="showTableLink" onclick="toggleTableVisibility();">Show conversion table</p>
-        <div id="calculationTableContainer"></div>
-    </div>
-    <script defer src="script.js"></script>
+    <main id="converter">
+        <h1>Industrial Hours Calculator</h1>
+        <form id="converterForm" novalidate>
+            <label for="timeInput">Enter hh:mm, minutes, or decimal hours:</label>
+            <div class="inputRow">
+                <input type="text" id="timeInput" placeholder="e.g. 1:30, 90 or 1,5" autocomplete="off" aria-describedby="error">
+                <button type="submit">Calculate</button>
+            </div>
+        </form>
+        <p id="result" aria-live="polite"></p>
+        <p id="error" class="error" role="alert"></p>
+        <details>
+            <summary>Conversion table</summary>
+            <table id="conversionTable" class="conversionTable"></table>
+        </details>
+    </main>
 </body>
 </html>
