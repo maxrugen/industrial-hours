@@ -4,15 +4,30 @@ This simple web-based Industrial Hours Calculator allows you to convert time dur
 
 ## Usage
 
-1. Open Industrial Hours Calculator at [maxrugen.github.io/industrial-hours](https://maxrugen.github.io/industrial-hours) or by running the HTML file locally.
+1. Open Industrial Hours Calculator at [maxrugen.github.io/industrial-hours](https://maxrugen.github.io/industrial-hours), or serve it locally (see [Development](#development)).
 2. Enter the duration in the input field.
-3. Click the "Calculate" button to convert the input into industrial hours.
+3. Press Enter or click the "Calculate" button to convert the input into industrial hours.
 
 ## Format
 
-- You can input time in either "hh:mm" format or as minutes.
+- You can input time in either "hh:mm" format (minutes 00–59, any number of hours) or as minutes.
 - Examples:
-  - Entering "1:30" or "90" will result in 1.5 industrial hours.
+  - Entering "1:30" or "90" will result in 1.50 industrial hours.
+  - Entering "100:00" will result in 100.00 industrial hours.
+
+## Development
+
+The page uses ES modules, which browsers don't load from `file://`. Serve the folder over HTTP instead:
+
+```sh
+python3 -m http.server
+```
+
+Then open [localhost:8000](http://localhost:8000). Run the tests (Node 20 or newer, no dependencies) with:
+
+```sh
+npm test
+```
 
 ## License
 
