@@ -11,9 +11,12 @@ This simple web-based Industrial Hours Calculator allows you to convert time dur
 ## Format
 
 - You can input time in either "hh:mm" format (minutes 00–59, any number of hours) or as minutes.
+- To convert the other way, enter decimal hours with a dot or a comma. The result is rounded to the nearest minute.
+- Industrial hours are shown in your browser's number format, e.g. "1.50" in English and "1,50" in German.
 - Examples:
   - Entering "1:30" or "90" will result in 1.50 industrial hours.
   - Entering "100:00" will result in 100.00 industrial hours.
+  - Entering "1,5" or "1.5" will result in 1:30.
 
 ## Development
 

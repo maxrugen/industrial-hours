@@ -1,9 +1,12 @@
-import { parseDuration, toIndustrialHours, formatHours } from "./calc.js";
+import { parseDuration, parseDecimalHours, toIndustrialHours, formatHours, formatDuration } from "./calc.js";
 
 const form = document.getElementById("converterForm");
 const input = document.getElementById("timeInput");
 const resultElement = document.getElementById("result");
 const errorElement = document.getElementById("error");
+// Intl's default locale follows the browser's UI language, not the user's
+// preferred content languages, so pass those explicitly.
+const locales = navigator.languages;
 
 function showResult(message) {
     resultElement.textContent = message;
@@ -19,11 +22,16 @@ function showError(message) {
 
 function convertTime() {
     const minutes = parseDuration(input.value);
-    if (minutes === null) {
-        showError("Invalid entry. Please enter a duration as hh:mm (minutes 00–59) or as minutes.");
+    if (minutes !== null) {
+        showResult(`Industrial Hours: ${formatHours(toIndustrialHours(minutes), locales)} hours`);
         return;
     }
-    showResult(`Industrial Hours: ${formatHours(toIndustrialHours(minutes))} hours`);
+    const decimalMinutes = parseDecimalHours(input.value);
+    if (decimalMinutes !== null) {
+        showResult(`Duration: ${formatDuration(decimalMinutes)} (hh:mm)`);
+        return;
+    }
+    showError("Invalid entry. Please enter hh:mm (minutes 00–59), minutes, or decimal hours like 1,5.");
 }
 
 // Three side-by-side column pairs keep 60 rows short enough to scan.
@@ -48,7 +56,7 @@ function generateConversionTable() {
         for (let pair = 0; pair < columnPairs; pair++) {
             const minutes = pair * rowsPerColumn + row;
             tableRow.insertCell().textContent = minutes;
-            tableRow.insertCell().textContent = formatHours(toIndustrialHours(minutes));
+            tableRow.insertCell().textContent = formatHours(toIndustrialHours(minutes), locales);
         }
     }
 }
