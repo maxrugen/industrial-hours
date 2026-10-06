@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Industrial Hours Calculator</title>
+    <meta name="description" content="Convert hh:mm or minutes to industrial (decimal) hours and back.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⏱️</text></svg>">
     <link rel="stylesheet" href="style.css">
     <script type="module" src="script.js"></script>
 </head>
@@ -13,7 +15,7 @@
         <form id="converterForm" novalidate>
             <label for="timeInput">Enter hh:mm, minutes, or decimal hours:</label>
             <div class="inputRow">
-                <input type="text" id="timeInput" placeholder="e.g. 1:30, 90 or 1,5" autocomplete="off" aria-describedby="error">
+                <input type="text" id="timeInput" autocomplete="off" aria-describedby="error">
                 <button type="submit">Calculate</button>
             </div>
         </form>
@@ -21,7 +23,7 @@
         <p id="error" class="error" role="alert"></p>
         <details>
             <summary>Conversion table</summary>
-            <table id="conversionTable" class="conversionTable"></table>
+            <div id="conversionTables" class="conversionTables"></div>
         </details>
     </main>
 </body>

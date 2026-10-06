@@ -1,4 +1,4 @@
-import { parseDuration, parseDecimalHours, toIndustrialHours, formatHours, formatDuration } from "./calc.js";
+import { describeConversion, toIndustrialHours, formatHours } from "./calc.js";
 
 const form = document.getElementById("converterForm");
 const input = document.getElementById("timeInput");
@@ -7,6 +7,7 @@ const errorElement = document.getElementById("error");
 // Intl's default locale follows the browser's UI language, not the user's
 // preferred content languages, so pass those explicitly.
 const locales = navigator.languages;
+const decimalExample = (1.5).toLocaleString(locales);
 
 function showResult(message) {
     resultElement.textContent = message;
@@ -21,49 +22,49 @@ function showError(message) {
 }
 
 function convertTime() {
-    const minutes = parseDuration(input.value);
-    if (minutes !== null) {
-        showResult(`Industrial Hours: ${formatHours(toIndustrialHours(minutes), locales)} hours`);
+    const description = describeConversion(input.value, locales);
+    if (description === null) {
+        showError(`Invalid entry. Please enter hh:mm (minutes 00–59), minutes, or decimal hours like ${decimalExample}.`);
         return;
     }
-    const decimalMinutes = parseDecimalHours(input.value);
-    if (decimalMinutes !== null) {
-        showResult(`Duration: ${formatDuration(decimalMinutes)} (hh:mm)`);
-        return;
-    }
-    showError("Invalid entry. Please enter hh:mm (minutes 00–59), minutes, or decimal hours like 1,5.");
+    showResult(description);
 }
 
-// Three side-by-side column pairs keep 60 rows short enough to scan.
-function generateConversionTable() {
-    const rowsPerColumn = 20;
-    const columnPairs = 3;
-    const table = document.getElementById("conversionTable");
+// One small table per 20-minute block, so the blocks can wrap on narrow screens.
+function generateConversionTables() {
+    const rowsPerTable = 20;
+    const tableCount = 3;
+    const container = document.getElementById("conversionTables");
 
-    const headerRow = table.createTHead().insertRow();
-    for (let pair = 0; pair < columnPairs; pair++) {
+    for (let tableIndex = 0; tableIndex < tableCount; tableIndex++) {
+        const table = document.createElement("table");
+        table.className = "conversionTable";
+
+        const headerRow = table.createTHead().insertRow();
         for (const headerText of ["Minutes", "Industrial Hours"]) {
             const th = document.createElement("th");
             th.scope = "col";
             th.textContent = headerText;
             headerRow.appendChild(th);
         }
-    }
 
-    const body = table.createTBody();
-    for (let row = 0; row < rowsPerColumn; row++) {
-        const tableRow = body.insertRow();
-        for (let pair = 0; pair < columnPairs; pair++) {
-            const minutes = pair * rowsPerColumn + row;
+        const body = table.createTBody();
+        for (let row = 0; row < rowsPerTable; row++) {
+            const minutes = tableIndex * rowsPerTable + row;
+            const tableRow = body.insertRow();
             tableRow.insertCell().textContent = minutes;
             tableRow.insertCell().textContent = formatHours(toIndustrialHours(minutes), locales);
         }
+
+        container.appendChild(table);
     }
 }
+
+input.placeholder = `e.g. 1:30, 90 or ${decimalExample}`;
 
 form.addEventListener("submit", event => {
     event.preventDefault();
     convertTime();
 });
 
-generateConversionTable();
+generateConversionTables();

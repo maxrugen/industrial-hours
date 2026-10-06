@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { parseDuration, parseDecimalHours, toIndustrialHours, formatHours, formatDuration } from "./calc.js";
+import { parseDuration, parseDecimalHours, toIndustrialHours, formatHours, formatDuration, describeConversion } from "./calc.js";
 
 test("parses plain minutes", () => {
     assert.equal(parseDuration("90"), 90);
@@ -62,4 +62,17 @@ test("formats minutes as h:mm", () => {
     assert.equal(formatDuration(5), "0:05");
     assert.equal(formatDuration(60), "1:00");
     assert.equal(formatDuration(6045), "100:45");
+});
+
+test("describes how the input was read", () => {
+    assert.equal(describeConversion("90", "en-US"), "90 min = 1.50 h");
+    assert.equal(describeConversion("8", "de-DE"), "8 min = 0,13 h");
+    assert.equal(describeConversion(" 01:30 ", "de-DE"), "1:30 = 1,50 h");
+    assert.equal(describeConversion("1,5", "de-DE"), "1,5 h = 1:30");
+    assert.equal(describeConversion(" 1.5 ", "en-US"), "1.5 h = 1:30");
+});
+
+test("describeConversion returns null for invalid input", () => {
+    assert.equal(describeConversion("abc", "en-US"), null);
+    assert.equal(describeConversion("0:60", "en-US"), null);
 });
